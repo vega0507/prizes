@@ -5,7 +5,7 @@ import pink from '@material-ui/core/colors/pink';
 
 const theme = createMuiTheme({
   palette: {
-    type: "ligth",
+    
     primary: {
       main: '#056399',
     },
