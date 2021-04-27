@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +14,20 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+
+import {Route, Switch, Link} from 'react-router-dom';
+
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import EditIcon from '@material-ui/icons/Edit';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import CloseIcon from '@material-ui/icons/Close';
+import EcoIcon from '@material-ui/icons/Eco';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -79,17 +93,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+const styles = (theme) => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(2),    
+    },
+    closeButton: {
+      position: 'absolute',
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    }  
+  });
+
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorAppMenu, setAnchorAppMenu] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isAppMenuOpen = Boolean(anchorAppMenu);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+
+  
+  const [open, setOpen] = useState(false);  
+  const [desde,setDesde] = useState(0);
+  const [hasta,setHasta] = useState(0);
+
+
+  //funcion que valida si debe mostrar el dialog para editar o mostrar mensaje 
+  const validarMostrarDialog = () => { 
+    if(props.limiteSeleccionado.producto === ''){     
+      props.mostrarSnackBar(true);
+    }else{
+      setOpen(true);
+      setDesde(props.limiteSeleccionado.desde);
+      setHasta(props.limiteSeleccionado.hasta);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleAppMenuOpen = (event) => {
+    setAnchorAppMenu(event.currentTarget);
+  };
+
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -97,8 +154,14 @@ export default function PrimarySearchAppBar() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    setAnchorAppMenu(null)
     handleMobileMenuClose();
   };
+
+  const handleRegistrar = () =>{
+    setAnchorAppMenu(null)
+      setOpen(!open);
+  }
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -119,6 +182,27 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
+
+
+  const appMenu = (
+    <Menu
+      anchorEl={anchorAppMenu}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id="appMenu"
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isAppMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleRegistrar}>Registrar puntos</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Redimir puntos</MenuItem>
+      <Link to='/products' style={{ textDecoration: 'none' }}>
+        <MenuItem>Notifications</MenuItem>
+        </Link>
+    </Menu>
+  );
+
+
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -160,6 +244,124 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
+  const DialogTitle = withStyles(styles)((props) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    );
+  });
+  
+  const DialogContent = withStyles((theme) => ({
+    root: {
+      padding: theme.spacing(2),
+    },
+  }))(MuiDialogContent);
+  
+  const DialogActions = withStyles((theme) => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(1),
+    },
+  }))(MuiDialogActions);
+
+  const dialog = (
+    <div>
+      {/*icono para edicion*/}
+      <IconButton 
+        aria-label="edit" onClick={validarMostrarDialog} 
+        style={{ color: "white" }}>
+        <EditIcon fontSize="small"/>
+      </IconButton>      
+     
+      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+        <DialogTitle id="customized-dialog-title" onClose={handleClose} className={classes.root}>
+            hola
+        </DialogTitle>
+        <DialogContent dividers>
+        {/*<div style={{width:'100 px'}}>
+            <br/>*/}
+        <Grid container spacing={1}>
+            <Grid item xs={2}/>                 
+            <Grid item xs={8}>                
+                <TextField 
+                    autoFocus
+                    color="primary"                    
+                    id="idLimite"
+                    label="label1"
+                    type="text"
+                    fullWidth 
+                              
+                    />
+            </Grid>
+            <Grid item xs={2}/>
+            <Grid item xs={2}/>                 
+            <Grid item xs={8}>                
+                <TextField 
+                    autoFocus
+                    color="primary"                    
+                    id="producto"
+                    label="label1"
+                    type="text"
+                    fullWidth                    
+                    
+                    />
+            </Grid>
+            <Grid item xs={2}/>            
+            <Grid item xs={2}/>
+            <Grid item xs={8}>
+                <TextField
+                    margin="dense"
+                    id="desde"
+                    label="label1"
+                    type="text" 
+                    fullWidth  
+                    value={desde} 
+                    onChange={(event)=>{setDesde(event.target.value)}}                                   
+                />
+            </Grid>            
+            <Grid item xs={2}/>
+            <Grid item xs={2}/>
+            <Grid item xs={8}>
+                <TextField
+                    margin="dense"
+                    id="hasta"
+                    label="label1"
+                    type="text" 
+                    fullWidth  
+                    value={hasta} 
+                    onChange={(event)=>{setHasta(event.target.value)}}                             
+                />
+            </Grid>            
+            <Grid item xs={2}/>
+        </Grid>
+        {/*</div>*/}
+        </DialogContent>
+
+        <DialogActions >        
+          <Button 
+            autoFocus
+            onClick={handleClose}
+            color="primary"
+          >
+            Guardar
+          </Button>                
+        </DialogActions>
+
+      </Dialog>
+      
+    </div>
+
+
+);
+
+
 
   return (
     <div className={classes.grow}>
@@ -170,11 +372,17 @@ export default function PrimarySearchAppBar() {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={handleAppMenuOpen}
           >
             <MenuIcon />
           </IconButton>
+          <IconButton aria-label="show 4 new mails" color="secondary">
+          
+            <EcoIcon />
+          
+        </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            GreenProd
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -227,6 +435,9 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {appMenu}
+      {dialog}
     </div>
   );
 }
+
