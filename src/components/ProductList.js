@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-
+import StarIcon from '@material-ui/icons/Star';
 
 import Detail from './ProductDetail';
 
@@ -23,34 +23,35 @@ const useStyles = makeStyles((theme) =>({
     [theme.breakpoints.up('xs')]: 
         {            
             width: [theme.breakpoints],
-            height: 380,
+            height: 340,
         },
     [theme.breakpoints.up('md')]: 
     {            
         width: 140,
-        height: 380,
+        height: 340,
     },
 
     [theme.breakpoints.up('md')]: 
     {            
         width: 240,
-        height: 380,
+        height: 340,
     },
 
 
     [theme.breakpoints.up('lg')]: 
     {            
         width: 265,
-        height: 380,
+        height: 340,
     },
     
     
 
   },
   media: {
-    height: 120,
+    height: 220,    
+    objectFit: 'fill'
   },
-
+ 
 
   color: {
     [theme.breakpoints.up('xs')]: {
@@ -76,10 +77,10 @@ const useStyles = makeStyles((theme) =>({
 
 const options = [
     {
-      name: 'Villa Aracely',
-      imagen: '/static/images/cards/rancho1.jpg',
+      name: 'Termo Mickey',
+      imagen: '/static/images/cards/termo_mickey.jfif',
       description: 'It is located within the Las Veraneras Club, this being one of the best Resort in El Salvador, it is a very safe place, with permanent surveillance and controlled access.',
-      price: '$100.00',
+      puntos: '100',
       photos: [
         {
             label: 'Villa Aracely - Pool',
@@ -93,9 +94,9 @@ const options = [
     },
     {
         name: 'Tierra Nuestra',
-        imagen: '/static/images/cards/rancho2.jpg',
+        imagen: '/static/images/cards/termo_negro.jfif',
         description: 'Located in one of the safest and most private beaches. The house has 3 bedrooms all with A / C (6 beds). On the first floor there are 2 bedrooms with bathroom.',
-        price: '$200.00',
+        puntos: '200',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -115,7 +116,7 @@ const options = [
         name: 'Yokota',
         imagen: '/static/images/cards/rancho3.jpg',
         description: 'Spacious one acre beachfront property with landscaped grounds. The house has 3 levels (only 2 levels for guests). It has 4 bedrooms with air conditioning',
-        price: '$300.00',
+        puntos: '300',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -135,7 +136,7 @@ const options = [
         name: 'Sofia',
         imagen: '/static/images/cards/rancho4.jpg',
         description: 'Remodeled beachfront house, fully furnished and equipped. It has 4 bedrooms with A / C, 5 bathrooms, hammock ranch, deck facing the beach, swimming pool and parking.',
-        price: '$40.00',
+        puntos: '40',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -151,7 +152,7 @@ const options = [
         name: 'PortoFino',
         imagen: '/static/images/cards/rancho5.jpg',
         description: 'You deserve to contemplate the sunrises and sunsets from a large terrace, with 180 ° views of the sea, located on one of the best beaches in El Salvador',
-        price: '$140.00',
+        puntos: '140',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -167,7 +168,7 @@ const options = [
         name: 'El Almendro',
         imagen: '/static/images/cards/rancho6.jpg',
         description: 'Remodeled beachfront home. It has 4 bedrooms with A / C, 5 bathrooms, kitchen, dining room, BBQ, hammock ranch, deck in front of the beach, swimming pool and parking.',
-        price: '$40.00',
+        puntos: '40',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -183,7 +184,7 @@ const options = [
         name: 'San Juan',
         imagen: '/static/images/cards/rancho7.jfif',
         description: 'Fully furnished and equipped. It is located in the middle of the private complex of La Bocana San Juan on Costa Azul beach. Offers peace of mind',
-        price: '$40.00',
+        puntos: '40',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -199,7 +200,7 @@ const options = [
         name: 'Villa Surf',
         imagen: '/static/images/cards/rancho8.jpg',
         description: 'Shalpa\'s private beachfront home, gated community security. It has 3 bedrooms, 2 bathrooms, three rooms and 2 large balconies',
-        price: '$40.00',
+        puntos: '40',
         photos: [
             {
                 label: 'Villa Aracely - Pool',
@@ -221,7 +222,7 @@ export default function Main() {
     <div>
         <Grid container>    
             <Grid item xs={12}>
-                <div className={classes.color}>el div</div>
+               {/* <div className={classes.color}>el div</div>*/}
             </Grid>
 
             <Grid item xs={1}/> 
@@ -230,29 +231,31 @@ export default function Main() {
                     {options.map((img, index) => (            
                     <Grid item xs={12} sm={6} md={4} lg={3} >
                         <Card className={classes.root} raised={true} key={img.name}>
-                            <CardActionArea>
+                            <CardActionArea >
                                 <CardMedia
-                                    className={classes.media}
+                                    component="img"
+                                    classes={{media:classes.media, img: classes.img}}
                                     image={img.imagen}
                                     title={img.name}
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2" color="primary" >
+                                    <Typography gutterBottom variant="h6" color="primary" >
                                         {img.name}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        {img.description}
+                                        {/*img.description*/}
                                     </Typography>
-                                    <Typography gutterBottom variant="h6" component="h2" color="secondary" >
-                                        {img.price}<LocalOfferIcon/>
+                                    <Typography gutterBottom variant="h6"   >
+                                        <StarIcon color="secondary"/>{img.puntos} Puntos
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>                                
+                            <CardActions> 
+                                {/*                               
                                 <Detail item={img}/>
                                 <Button size="small" color="primary">
                                     Book
-                                </Button>
+                                </Button>*/}
                             </CardActions>
                         </Card>
                     </Grid>        

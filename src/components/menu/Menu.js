@@ -29,6 +29,11 @@ import TextField from '@material-ui/core/TextField';
 import CloseIcon from '@material-ui/icons/Close';
 import EcoIcon from '@material-ui/icons/Eco';
 
+import StarIcon from '@material-ui/icons/Star';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import Divider from '@material-ui/core/Divider';
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -282,65 +287,52 @@ export default function PrimarySearchAppBar(props) {
      
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose} className={classes.root}>
-            hola
+            Registro de puntos
         </DialogTitle>
-        <DialogContent dividers>
-        {/*<div style={{width:'100 px'}}>
-            <br/>*/}
-        <Grid container spacing={1}>
-            <Grid item xs={2}/>                 
-            <Grid item xs={8}>                
+        <DialogContent dividers>        
+            <Grid container spacing={1}>
+            <Grid item xs={1}/>                 
+            <Grid item xs={4}>                
                 <TextField 
                     autoFocus
                     color="primary"                    
                     id="idLimite"
-                    label="label1"
+                    label="Código"
                     type="text"
                     fullWidth 
-                              
+                    variant="outlined"
+                    InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <CameraAltIcon color="secondary" />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
             </Grid>
-            <Grid item xs={2}/>
-            <Grid item xs={2}/>                 
-            <Grid item xs={8}>                
-                <TextField 
-                    autoFocus
-                    color="primary"                    
-                    id="producto"
-                    label="label1"
-                    type="text"
-                    fullWidth                    
-                    
-                    />
+            <Grid item xs={3}>
+                <Button variant="contained" color="primary" 
+                    startIcon={<ArrowUpwardIcon color="secondary" />}>
+                  Cargar 
+                </Button>
+            </Grid>           
             </Grid>
-            <Grid item xs={2}/>            
-            <Grid item xs={2}/>
-            <Grid item xs={8}>
-                <TextField
-                    margin="dense"
-                    id="desde"
-                    label="label1"
-                    type="text" 
-                    fullWidth  
-                    value={desde} 
-                    onChange={(event)=>{setDesde(event.target.value)}}                                   
-                />
-            </Grid>            
-            <Grid item xs={2}/>
-            <Grid item xs={2}/>
-            <Grid item xs={8}>
-                <TextField
-                    margin="dense"
-                    id="hasta"
-                    label="label1"
-                    type="text" 
-                    fullWidth  
-                    value={hasta} 
-                    onChange={(event)=>{setHasta(event.target.value)}}                             
-                />
-            </Grid>            
-            <Grid item xs={2}/>
-        </Grid>
+            <br/>
+            <Divider/>
+            
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Typography variant="h6" color="primary">Detalle de producto</Typography>
+                </Grid>                 
+                <Grid item xs={4}/>                 
+                <Grid item xs={8}> 
+                    <Grid container>
+                        <Grid item xs={12}>Producto:</Grid>
+                        <Grid item xs={12}>Puntos: </Grid>
+                      </Grid>               
+                </Grid>
+            
+            </Grid>         
         {/*</div>*/}
         </DialogContent>
 
@@ -350,7 +342,7 @@ export default function PrimarySearchAppBar(props) {
             onClick={handleClose}
             color="primary"
           >
-            Guardar
+            Cargar Puntos
           </Button>                
         </DialogActions>
 
@@ -400,8 +392,8 @@ export default function PrimarySearchAppBar(props) {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
+              <Badge badgeContent={34} color="secondary">
+                <StarIcon />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
