@@ -11,9 +11,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
 
 import { makeStyles, withTheme } from '@material-ui/core/styles';
-
+import {Route, Switch} from 'react-router-dom';
 import Registro from '../Registro';
-
+import { Link } from 'react-router-dom';
+import Temporal from '../Temporal';
 const useStyles = makeStyles( theme => ({
     root: {
       //maxWidth: 800,
@@ -55,10 +56,10 @@ const useStyles = makeStyles( theme => ({
 const Login = (props)=>{
     const classes = useStyles();
 
-    function loguear(){
+    /*function loguear(){
         //window.location.href = "/limites";
         props.validarLogIn(true);
-    }
+    }*/
     
 
 
@@ -112,13 +113,14 @@ const Login = (props)=>{
                     <br/><br/>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button
-                        variant="contained"
-                        color="primary"     
-                        onClick={loguear}                 
-                    >
-                    Entrar
-                </Button>
+                    <Link to='/welcome'>
+                        <Button
+                            variant="contained"
+                            color="primary"                                 
+                        >
+                        Entrar
+                        </Button>
+                    </Link>
                 </Grid>
                 <Grid item xs={12}> 
                    <Registro />
@@ -129,6 +131,7 @@ const Login = (props)=>{
                 </Grid>
                 </CardContent>
                         </Card>
+                      
         </div>
     );
 }

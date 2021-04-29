@@ -6,16 +6,18 @@ import Menu from './components/menu/Menu';
 import Welcome from './components/Welcome';
 import ProductList from './components/ProductList';
 import Registro from './components/Registro';
-
+import Temporal from './components/Temporal';
 function App() {
-  const [logueado, setLogueado] = useState(false);
+  const [logueado, setLogueado] = useState(true);
   return (
     <div>
-      {}
-   <Switch>
-        <Route path="/" exact component={logueado ? Menu : Login}/>        
-        <Route path="/products" exact component={ProductList}/>        
-    </Switch></div>
+      {logueado ? <Temporal/> : <Login/>}
+      <Switch>
+   {/*<Route path="/welcome" exact component={Temporal}/>        */}
+   <Route path="/products" exact component={ProductList}/>        
+</Switch>
+   </div>
+   
   );
 }
 
