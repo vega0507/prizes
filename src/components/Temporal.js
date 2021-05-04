@@ -11,7 +11,7 @@ export default function Temporal(){
         <Switch>
         <Route path="/welcome" exact component={Welcome}/> 
         <Route path="/products" exact component={ProductList}/>        
-    </Switch>
+        </Switch>
     </div>
         
     );

@@ -1,8 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,11 +8,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
 
-import { makeStyles, withTheme } from '@material-ui/core/styles';
-import {Route, Switch} from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import Registro from '../Registro';
 import { Link } from 'react-router-dom';
-import Temporal from '../Temporal';
+import { connect } from 'react-redux';
+import { validarLogIn } from '../../actions';
+
 const useStyles = makeStyles( theme => ({
     root: {
       //maxWidth: 800,
@@ -56,11 +55,9 @@ const useStyles = makeStyles( theme => ({
 const Login = (props)=>{
     const classes = useStyles();
 
-    /*function loguear(){
-        //window.location.href = "/limites";
-        props.validarLogIn(true);
-    }*/
-    
+    function validarIngreso(){        
+        props.validarLogIn(true);        
+    }
 
 
     return (
@@ -116,7 +113,8 @@ const Login = (props)=>{
                     <Link to='/welcome'>
                         <Button
                             variant="contained"
-                            color="primary"                                 
+                            color="primary" 
+                            onClick={validarIngreso}                                
                         >
                         Entrar
                         </Button>
@@ -136,4 +134,10 @@ const Login = (props)=>{
     );
 }
 
-export default Login;
+const mapStateToProps = (state) =>{     
+    return { usuarioLogueado: state.authReducer.usuarioLogueado };
+  }
+  
+  export default connect(mapStateToProps, {  
+    validarLogIn 
+  })(Login);
